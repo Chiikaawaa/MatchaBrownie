@@ -1,0 +1,31 @@
+absorption: "~ 80% absorbed from GI tract\r\n<p>Time to reach peak plasma concentration\
+  \ = 47 minutes (suspension), 62 minutes (chewable tablets), 120 minutes (conventional\
+  \ tablets)</p>"
+charge: 0
+description: Ibuprofen, a propionic acid derivative, is a prototypical nonsteroidal
+  anti-inflammatory agent (NSAIA) with analgesic and antipyretic properties.
+drugbank_id: DB01050
+half_life: 2-4 hours
+indication: For symptomatic treatment of rheumatoid arthritis, juvenile rheumatoid
+  arthritis and osteoarthritis. May be used to treat mild to moderate pain and for
+  the management of dysmenorrhea. May be used to reduce fever. Has been used with
+  some success for treating ankylosing spondylitis, gout and psoriatic arthritis.
+  May reduce pain, fever and inflammation of pericarditis. May be used IV with opiates
+  to relieve moderate to severe pain. Ibuprofen lysine may be used IV to treat patent
+  ductus arteriosus (PDA) in premature neonates.
+logP: 3.97
+metabolism: 'R-enanatiomer undergoes extensive enantiomeric conversion (53-65%) to
+  the more active S-enantiomer <i>in vivo</i>. Metablized by oxidation to 2 inactive
+  metabolites: (+)-2[4´-(2-hydroxy-2-methylpropyl)phenyl]propionic acid and (+)-2-[4´-(2-carboxypropyl)phenyl]propionic
+  acid. Very small amounts of 1-hydroxyibuprofen and 3-hydroxyibuprofen have been
+  recovered from urine. Cytochrome P450 2C9 is the major catalyst in the formation
+  of oxidative metabolites. Oxidative metabolites may be conjugated to glucuronide
+  prior to excretion.'
+molecular_weight: 206.2808
+name: ibuprofen
+pKa: 4.91
+protein_binding: 0.99
+protein_binding_raw: 90-99% to whole human plasma and site II of purified albumin,
+  binding appears to be saturable and becomes non-linear at concentrations exceeding
+  20 mcg/ml.
+protein_binding_source: drugbank

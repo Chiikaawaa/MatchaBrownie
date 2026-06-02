@@ -1,0 +1,27 @@
+absorption: Readily absorbed after oral or parenteral administration. The peak plasma
+  level for caffeine range from 6-10mg/L and the mean time to reach peak concentration
+  ranged from 30 minutes to 2 hours.
+charge: 0
+description: A methylxanthine naturally occurring in some beverages and also used
+  as a pharmacological agent. Caffeine's most notable pharmacological effect is as
+  a central nervous system stimulant, increasing alertness and producing agitation.
+  It also relaxes smooth muscle, stimulates cardiac muscle, stimulates diuresis, and
+  appears to be useful in the treatment of some types of headache. Several cellular
+  actions of caffeine have been observed, but it is not entirely clear how each contributes
+  to its pharmacological profile. Among the most important are inhibition of cyclic
+  nucleotide phosphodiesterases, antagonism of adenosine receptors, and modulation
+  of intracellular calcium handling.
+drugbank_id: DB00201
+half_life: 3 to 7 hours in adults, 65 to 130 hours in neonates
+indication: For management of fatigue, orthostatic hypotension, and for the short
+  term treatment of apnea of prematurity in infants.
+logP: -0.07
+metabolism: Hepatic cytochrome P450 1A2 (CYP 1A2) is involved in caffeine biotransformation.
+  About 80% of a dose of caffeine is metabolized to paraxanthine (1,7-dimethylxanthine),
+  10% to theobromine (3,7-dimethylxanthine), and 4% to theophylline (1,3-dimethylxanthine).
+molecular_weight: 194.1906
+name: caffeine
+pKa: 10.4
+protein_binding: 0.36
+protein_binding_raw: Low (25 to 36%).
+protein_binding_source: drugbank

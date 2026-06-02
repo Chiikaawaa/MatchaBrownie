@@ -1,0 +1,16 @@
+name: intestine
+description: Small intestinal epithelium — primary site of oral drug absorption
+diffusion_coefficient: 3.2e-11
+viscosity: 0.0012
+permeability: 3.8e-4
+tortuosity: 1.6
+ph: 6.5
+box_size_um: 25.0
+transporter_expression:
+  ABCC2: 0.333
+  ABCB1: 0.693
+  ABCG2: 1.0
+  SLCO1B1: 0.0
+  SLC22A1: 0.0003
+transporter_expression_source: Human Protein Atlas — rna_tissue_consensus nTPM, normalised
+  to max expression
