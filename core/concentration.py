@@ -63,8 +63,6 @@ class ConcentrationField:
 
 
 class FirstPassageTracker:
-    
-
     def __init__(self, axis: int, threshold: float, dt: float, n_particles: int):
         self.axis              = axis
         self.threshold         = threshold
@@ -74,10 +72,7 @@ class FirstPassageTracker:
         self._already_crossed: set = set()
 
     def update(self, positions: np.ndarray, step: int, active_mask: np.ndarray = None):
-        if active_mask is not None:
-            candidate_idx = np.where(active_mask)[0]
-        else:
-            candidate_idx = np.arange(len(positions))
+        candidate_idx = np.arange(len(positions))
 
         if step == 0:
             self._already_crossed = set(

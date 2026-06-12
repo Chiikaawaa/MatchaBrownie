@@ -41,7 +41,7 @@ class TissueParams:
         self.transporter_expression_source = data.get("transporter_expression_source", "not set")
 
     def get_expression_scale(self, gene: str) -> float:
-        """Normalised HPA expression scale for a transporter gene (0–1). 0 if absent."""
+       
         return float(self.transporter_expression.get(gene, 0.0))
 
     def __repr__(self):
@@ -116,18 +116,8 @@ class Registry:
 
     @staticmethod
     def compute_D_eff(drug: DrugParams, tissue: TissueParams) -> float:
-        """
-        Stokes-Einstein corrected for tortuosity squared (Archie's law)
-        and free fraction.
-
-            D_eff = kT / (6π η r) × (1 / tortuosity²) × (1 − protein_binding)
-
-        The free-fraction factor is applied here and nowhere else. Transporters
-        read free_fraction from DrugParams and apply it to Vmax; they must NOT
-        re-apply it to D_eff-derived quantities (e.g. P_cross) or to the drift
-        velocity a second time.
-        """
-        kT            = 1.380649e-23 * 310.15   # body temp 37°C
+       
+        kT            = 1.380649e-23 * 310.15   
         D_base        = kT / (6 * np.pi * tissue.viscosity * drug.radius)
         free_fraction = 1.0 - drug.protein_binding
         return D_base * (1.0 / tissue.tortuosity ** 2) * free_fraction
@@ -138,34 +128,8 @@ class Registry:
         box_size_m:   float,
         n_particles:  int,
     ) -> float:
-        """
-        Compute the particles_per_mole scaling factor so that the local molar
-        concentration seen by Michaelis-Menten kinetics matches a physical dose.
 
-        Without this, 1 particle = 1 molecule, giving absurdly low molar
-        concentrations in µm-scale boxes (e.g. ~1e-12 M per particle) and
-        preventing transporter saturation at any realistic dose.
-
-        Parameters
-        ----------
-        dose_uM     : physical dosing concentration in µM
-        box_size_m  : edge length of the cubic simulation box in metres
-        n_particles : number of simulation particles
-
-        Returns
-        -------
-        particles_per_mole : float
-            Pass this directly to TransporterParams(particles_per_mole=…).
-
-        Example
-        -------
-        >>> ppm = Registry.calibrate_particles_per_mole(
-        ...     dose_uM=10.0, box_size_m=10e-6, n_particles=1000
-        ... )
-        # 10 µM in a 10 µm box → ~1e-17 mol total
-        # 1000 particles → ppm ≈ 1e-20 mol/particle
-        """
-        dose_mol_per_m3  = dose_uM * 1e-3          # µM → mol/m³
+        dose_mol_per_m3  = dose_uM * 1e-3          
         box_volume_m3    = box_size_m ** 3
         moles_in_box     = dose_mol_per_m3 * box_volume_m3
         return moles_in_box / n_particles
@@ -187,34 +151,7 @@ class Registry:
         n_particles:       int   = None,
         dose_uM:           float = None,
     ):
-        """
-        Build an ActiveTransporter with expression_scale pulled automatically
-        from the tissue's HPA RNA data.
 
-        free_fraction is read from drug.protein_binding. It is passed to
-        TransporterParams and applied to Vmax inside ActiveTransporter.compute_drift()
-        only — it is NOT applied a second time via D_eff or P_cross.
-
-        particles_per_mole is calibrated automatically when both n_particles and
-        dose_uM are supplied; otherwise falls back to the legacy 1-molecule default
-        and emits a warning.
-
-        Parameters
-        ----------
-        gene              : HGNC gene symbol — one of ABCB1, ABCG2, SLCO1B1, SLC22A1, ABCC2
-        tissue            : TissueParams loaded from registry
-        drug              : DrugParams loaded from registry
-        D_eff             : effective diffusion coefficient (m²/s) — used to set
-                            the activity zone width (sqrt(2 D_eff dt))
-        dt                : simulation timestep (s) — used for activity zone
-        Km_um             : Michaelis constant in µM (literature value)
-        Vmax_ms           : max drift velocity in m/s (typical: 1–10 nm/s)
-        Ki_um             : inhibition constant in µM (competitive inhibition)
-        inhibitor_conc_um : inhibitor concentration in µM
-        membrane_side     : which side of membrane the transporter acts on
-        n_particles       : number of simulation particles (needed for calibration)
-        dose_uM           : physical dosing concentration in µM (needed for calibration)
-        """
         from core.transporter import TransporterParams, ActiveTransporter
 
         if gene not in GENE_META:
@@ -224,7 +161,6 @@ class Registry:
         expression_scale = tissue.get_expression_scale(gene)
         free_fraction    = 1.0 - drug.protein_binding
 
-        # Calibrate particles_per_mole if the caller supplied dose and count.
         if n_particles is not None and dose_uM is not None:
             particles_per_mole = Registry.calibrate_particles_per_mole(
                 dose_uM=dose_uM,
@@ -232,7 +168,7 @@ class Registry:
                 n_particles=n_particles,
             )
         else:
-            particles_per_mole = 1.0 / 6.02214076e23   # legacy: 1 particle = 1 molecule
+            particles_per_mole = 1.0 / 6.02214076e23   
             print(
                 f"⚠ make_transporter_for_tissue: particles_per_mole not calibrated "
                 f"(n_particles or dose_uM not supplied). Transporter will operate in "
@@ -259,5 +195,4 @@ class Registry:
             membrane_side     = membrane_side,
             D_eff             = D_eff,
             dt                = dt,
-            # activity_zone left as None → defaults to sqrt(2 D_eff dt)
         )
