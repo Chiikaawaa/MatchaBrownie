@@ -1,7 +1,9 @@
 import numpy as np
 from dataclasses import dataclass, field
 from typing import Optional
-
+import sim_core
+from sim_core import step_core
+from sim_core import apply_geometry
 
 @dataclass
 class WallConfig:
@@ -67,39 +69,37 @@ class BoxGeometry:
         self._active: Optional[np.ndarray] = None   
     
 
-    def apply(
-        self,
-        old_positions: np.ndarray,
-        new_positions: np.ndarray,
-    ) -> np.ndarray:
-    
-        n = len(new_positions)
+    def apply(self, old_positions: np.ndarray, new_positions: np.ndarray) -> np.ndarray:
+        n=len(new_positions)
         if self._active is None:
             self._active = np.ones(n, dtype=bool)
-
-        positions = new_positions.copy()
-
-        # Dimension → (lo_face_key, hi_face_key)
-        face_pairs = [
-            ("x_lo", "x_hi"),
-            ("y_lo", "y_hi"),
-            ("z_lo", "z_hi"),
-        ]
-
-        for dim, (lo_key, hi_key) in enumerate(face_pairs):
-            lo, hi = self.bounds[dim]
-
-            self._apply_wall(
-                positions, old_positions, dim,
-                wall_pos=lo, over_wall=(positions[:, dim] < lo),
-                face_key=lo_key,
-            )
-            self._apply_wall(
-                positions, old_positions, dim,
-                wall_pos=hi, over_wall=(positions[:, dim] > hi),
-                face_key=hi_key,
-            )
-
+        positions = new_positions.copy().astype(np.float64)
+        bounds = self.bounds.astype(np.float64)
+        mode_map = {"reflect": 0, "absorb": 1, "membrane": 2}
+        wall_modes = np.array([
+            mode_map[self.walls[face].mode] 
+            for face in ("x_lo", "x_hi", "y_lo", "y_hi", "z_lo", "z_hi")
+        ], dtype=np.int32)
+        permeabilities = np.array([
+            self.walls[face].permeability 
+            for face in ("x_lo", "x_hi", "y_lo", "y_hi", "z_lo", "z_hi")
+        ], dtype=np.float64)
+    
+        n_att = np.zeros(6, dtype=np.int32)
+        n_cross = np.zeros(6, dtype=np.int32)
+        n_abs = np.zeros(6, dtype=np.int32)
+        sim_core.apply_geometry(
+            positions, self._active, bounds, wall_modes, permeabilities,
+            n_att, n_cross, n_abs
+        )
+    
+    # Update Python counters from C++
+        face_labels = ("x_lo", "x_hi", "y_lo", "y_hi", "z_lo", "z_hi")
+        for i, face in enumerate(face_labels):
+            self.n_attempts[face] += int(n_att[i])
+            self.n_crossings[face] += int(n_cross[i])
+            self.n_absorbed[face] += int(n_abs[i])
+    
         return positions
 
     def is_inside(self, positions: np.ndarray) -> np.ndarray:

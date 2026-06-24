@@ -1,4 +1,10 @@
 import numpy as np
+try:
+    from core import sim_core 
+    HAS_CPP = True
+except ImportError: 
+    HAS_CPP = False
+    print("C++ extension not found")
 
 class Simulator:
     def __init__(
@@ -27,6 +33,7 @@ class Simulator:
         self.step_count          = 0
 
     def step(self):
+    
         if self.geometry is not None and self.geometry._active is None:
             active_mask = np.ones(self.n_particles, dtype=bool)
         else:
@@ -44,31 +51,27 @@ class Simulator:
             self.step_count += 1
             return
 
-        sigma = np.sqrt(2 * self.D * self.dt)
-        noise = np.zeros((self.n_particles, 3))
-        noise[active_mask] = np.random.normal(0, sigma, size=(n_active, 3))
-
-        total_drift = np.zeros((self.n_particles, 3))
+        old_positions = self.positions.copy()
+    
+        sim_core.step_core(self.positions, active_mask, self.D, self.dt)
+    
         if self.transporters:
             box_size = (
                 float(self.geometry.bounds[self.transporters[0].params.axis, 1] -
-                      self.geometry.bounds[self.transporters[0].params.axis, 0])
-                if self.geometry is not None else 1e-5
+                  self.geometry.bounds[self.transporters[0].params.axis, 0])
+            if self.geometry is not None else 1e-5
+        )
+        total_drift = np.zeros((self.n_particles, 3))
+        for transporter in self.transporters:
+            drift = transporter.compute_drift(
+                self.positions, self.dt, box_size, self.concentration_field
             )
-            for transporter in self.transporters:
-                drift = transporter.compute_drift(
-                    self.positions, self.dt, box_size, self.concentration_field
-                )
-                total_drift[active_mask] += drift[active_mask]
-
-        old_positions = self.positions.copy()
-        potential_positions = old_positions.copy()
-        potential_positions[active_mask] += noise[active_mask] + total_drift[active_mask]
+            total_drift[active_mask] += drift[active_mask]
+        
+        self.positions[active_mask] += total_drift[active_mask]
 
         if self.membrane is not None:
-            self.positions = self.membrane.apply(old_positions, potential_positions)
-        else:
-            self.positions = potential_positions
+            self.positions = self.membrane.apply(old_positions, self.positions)
 
         if self.geometry is not None:
             self.positions = self.geometry.apply(old_positions, self.positions)
@@ -119,65 +122,14 @@ class Simulator:
             all_noise = np.random.normal(0, sigma, size=(n_steps, self.n_particles, 3))
 
             for i in range(n_steps):
+                self.step()
                 active_mask = (
-                    self.geometry.active_mask
-                    if self.geometry is not None
-                    else np.ones(self.n_particles, dtype=bool)
+                self.geometry.active_mask
+                if self.geometry is not None
+                else np.ones(self.n_particles, dtype=bool)
                 )
-
-                n_active = np.sum(active_mask)
-                if n_active == 0:
-                    self.time += self.dt
-                    self.step_count += 1
-                    continue
-
-                noise = np.zeros((self.n_particles, 3))
-                noise[active_mask] = all_noise[i][active_mask]
-
-                total_drift = np.zeros((self.n_particles, 3))
-                if self.transporters:
-                    box_size = (
-                        float(self.geometry.bounds[self.transporters[0].params.axis, 1] -
-                              self.geometry.bounds[self.transporters[0].params.axis, 0])
-                        if self.geometry is not None else 1e-5
-                    )
-                    for transporter in self.transporters:
-                        drift = transporter.compute_drift(
-                            self.positions, self.dt, box_size, self.concentration_field
-                        )
-                        total_drift[active_mask] += drift[active_mask]
-
-                old_positions = self.positions.copy()
-                potential_positions = old_positions.copy()
-                potential_positions[active_mask] += noise[active_mask] + total_drift[active_mask]
-
-                if self.membrane is not None:
-                    self.positions = self.membrane.apply(old_positions, potential_positions)
-                else:
-                    self.positions = potential_positions
-
-                if self.geometry is not None:
-                    self.positions = self.geometry.apply(old_positions, self.positions)
-
-                active_mask = (
-                    self.geometry.active_mask
-                    if self.geometry is not None
-                    else np.ones(self.n_particles, dtype=bool)
-                )
-
-                if self.concentration_field is not None:
-                    self.concentration_field.update(self.positions, active_mask)
-                    if self.step_count % 10 == 0:
-                        self.concentration_field.snapshot()
-
-                if self.fpt_tracker is not None:
-                    self.fpt_tracker.update(self.positions, self.step_count, active_mask)
-
                 disp = self.positions[active_mask] - origin[active_mask]
                 msd[i+1] = np.mean(np.sum(disp**2, axis=1)) if active_mask.any() else np.nan
-
-                self.time += self.dt
-                self.step_count += 1
 
             all_msd.append(msd)
             self.history = [self.positions.copy()]
