@@ -27,10 +27,7 @@ data/rna_tissue_consensus.tsv
 data/BDB-mySQL*
 data/BDB-mysql*
 data/BDB-mySQL_All_202604_dmp
-# ==============================================================================
-# Data Whitelist (Allow ONLY your sample configuration files)
-# ==============================================================================
-# 1. Ignore general files at the root of the data folder
+
 data/*
 
 # 2. Re-open access to the subfolders so Git can read inside them
@@ -55,3 +52,5 @@ notebooks/03_full_pipeline_test.ipynb
 new.py
 paper.md 
 Runs/*
+
+caco2_wang.csv
