@@ -20,7 +20,7 @@ viz/
 *.so
 *.csv
 
-build/*
+build/
 
 data/drugbank
 data/drugbank.xml
@@ -53,4 +53,4 @@ notebooks/03_full_pipeline_test.ipynb
 
 new.py
 paper.md 
-Runs/*
+Runs/
