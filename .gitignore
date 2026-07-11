@@ -17,6 +17,8 @@ viz/
 *.jpg
 *.jpeg
 *.mp4
+*.so
+*.csv
 
 build/*
 
@@ -52,5 +54,3 @@ notebooks/03_full_pipeline_test.ipynb
 new.py
 paper.md 
 Runs/*
-
-caco2_wang.csv
