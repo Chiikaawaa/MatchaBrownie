@@ -1,0 +1,15 @@
+name: lung
+description: Alveolar epithelium — thin barrier, high surface area
+diffusion_coefficient: 1.8e-11
+viscosity: 0.0011
+permeability: 4.5e-4
+tortuosity: 1.4
+box_size_um: 30.0
+transporter_expression:
+  ABCC2: 0.0044
+  ABCB1: 0.0624
+  ABCG2: 0.0577
+  SLCO1B1: 0.0
+  SLC22A1: 0.0007
+transporter_expression_source: Human Protein Atlas — rna_tissue_consensus nTPM, normalised
+  to max expression

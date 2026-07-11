@@ -1,0 +1,21 @@
+absorption: Absorption of an oral dose is complete. There is a small and consistent
+  first-pass effect resulting in an absolute bioavailability of 89% &plusmn; 5% that
+  is unaffected by the concomitant ingestion of food or alcohol.
+charge: 0
+description: A cardioselective beta-1-adrenergic antagonist with no partial agonist
+  activity.
+drugbank_id: DB00195
+half_life: 14-22 hours
+indication: For the management of hypertension.
+logP: 2.81
+metabolism: Primarily hepatic. Approximately 15% of the dose administered is excreted
+  as unchanged drug, the remainder being metabolites whose contribution to the clinical
+  effect is negligible.
+molecular_weight: 307.4278
+name: betaxolol
+pKa: 9.4
+protein_binding: 0.5
+protein_binding_raw: 50%
+protein_binding_source: drugbank
+Papp_cms: 1.55e-5
+Papp_source: WangCACO2 dataset

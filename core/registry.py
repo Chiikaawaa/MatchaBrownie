@@ -35,7 +35,6 @@ class TissueParams:
         self.viscosity       = float(data["viscosity"])
         self.permeability    = float(data["permeability"])
         self.tortuosity      = float(data["tortuosity"])
-        self.ph              = float(data["ph"])
         self.box_size        = float(data["box_size_um"]) * 1e-6
         self.transporter_expression        = data.get("transporter_expression", {})
         self.transporter_expression_source = data.get("transporter_expression_source", "not set")
@@ -64,16 +63,27 @@ class DrugParams:
         self.indication      = data.get("indication", "unknown")
         self.charge          = int(data.get("charge", 0))
         self.radius          = 0.0483e-9 * (self.MW ** (1/3))
-
+        self.Papp_cms         = float(data.get("Papp_cms")) if data.get("Papp_cms") is not None else None
+        self.Papp_source     = data.get("Papp_source", "default")
+        
+        if self.Papp_cms is not None:
+            self.Papp_ms = self.Papp_cms * 1e-2
+        else:
+            self.Papp_ms = None
+        
         self.warnings = []
         if self.pb_source == "default":
             self.warnings.append(
                 f"protein_binding estimated at 0.5 — verify at "
                 f"drugbank.com/drugs/{self.name}"
             )
+        if self.Papp_ms is None:
+            self.warnings.append(
+                f"Papp_ms not available in drug Yaml"
+            )
 
     def __repr__(self):
-        return f"DrugParams({self.name}, MW={self.MW}, logP={self.logP})"
+        return f"DrugParams({self.name}, MW={self.MW}, logP={self.logP}, pKa={self.pKa}, protein_binding={self.protein_binding}, Papp_ms={self.Papp_ms})"
 
 
 class Registry:
@@ -120,7 +130,8 @@ class Registry:
         kT            = 1.380649e-23 * 310.15   
         D_base        = kT / (6 * np.pi * tissue.viscosity * drug.radius)
         free_fraction = 1.0 - drug.protein_binding
-        return D_base * (1.0 / tissue.tortuosity ** 2) * free_fraction
+        trial_factor:float  = tissue.permeability
+        return D_base * (1.00/ tissue.tortuosity ** 2) * free_fraction
 
     @staticmethod
     def calibrate_particles_per_mole(

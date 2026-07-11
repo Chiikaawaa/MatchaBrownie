@@ -1,0 +1,15 @@
+name: muscle
+description: Skeletal muscle tissue — dense fiber structure
+diffusion_coefficient: 4.5e-12
+viscosity: 0.0015
+permeability: 1.8e-5
+tortuosity: 2.1
+box_size_um: 40.0
+transporter_expression:
+  ABCC2: 0.0088
+  ABCB1: 0.0021
+  ABCG2: 0.0036
+  SLCO1B1: 0.0
+  SLC22A1: 0.0015
+transporter_expression_source: Human Protein Atlas — rna_tissue_consensus nTPM, normalised
+  to max expression

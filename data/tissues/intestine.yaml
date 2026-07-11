@@ -4,7 +4,6 @@ diffusion_coefficient: 3.2e-11
 viscosity: 0.0012
 permeability: 3.8e-4
 tortuosity: 1.6
-ph: 6.5
 box_size_um: 25.0
 transporter_expression:
   ABCC2: 0.333

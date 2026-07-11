@@ -25,3 +25,5 @@ pKa: 10.4
 protein_binding: 0.36
 protein_binding_raw: Low (25 to 36%).
 protein_binding_source: drugbank
+Papp_cms: 4.57e-5
+Papp_source: WangCACO2 dataset

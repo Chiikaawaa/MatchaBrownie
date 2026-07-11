@@ -1,0 +1,22 @@
+name: tumor
+description: Solid tumor microenvironment — dense, poorly vascularized
+
+# Source: Netti et al., Cancer Research 2000
+diffusion_coefficient: 8.0e-13
+
+viscosity: 2.1e-3
+
+# Low — high interstitial pressure and dense ECM block drug penetration
+# Source: Jain, Scientific American 1994
+permeability: 8.0e-6
+
+tortuosity: 1.7
+
+
+box_size_um: 60.0
+transporter_expression:
+  ABCB1: 0.90
+  ABCG2: 0.75
+  ABCC2: 0.50
+  SLCO1B1: 0.05
+  SLC22A1: 0.10

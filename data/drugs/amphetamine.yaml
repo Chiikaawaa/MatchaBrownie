@@ -1,0 +1,41 @@
+absorption: Amphetamine forms easily absorbed molecules that are highly lipid soluble.
+  D-amphetamine mean peak plasma concentrations of 44.9 ng/mL occurred at a median
+  time of 5.0 hours after dosing, and L-amphetamine mean peak plasma concentrations
+  of 14.5 ng/mL occurred at a median time of 5.25 hours after dosing.
+charge: 0
+description: 'Amphetamines are non-catecholamine sympathomimetic amines with CNS stimulant
+  activity. By mimicking the structures of the catecholamine neurotransmitters, noradrenaline
+  and dopamine, amphetamines modulate monoamine release, reuptake, and signalling
+  within the brain. Although "amphetamine" is used as a descriptor of its own structural
+  class, amphetamine properly refers to a racemic free base composed of equal parts
+  of its two optical antipodes: levo-amphetamine and dextro-amphetamine. Used in the
+  past for the treatment of depression, stress, and for concentration improvement,
+  it is currently available as a prescription drug for the treatment of attention
+  hyperactivity disorder (ADHD), narcolepsy, and as an adjunct in the treatment of
+  exogenous obesity. Amphetamine is also available in a mixed salt/mixed enantiomer
+  form (Adderall), where d-amphetamine and l-amphetamine are available in a ratio
+  of 3:1. It is also available in a prodrug form as lisdexamfetamine.'
+drugbank_id: DB00182
+half_life: The half life for adults in the fasted state was found to be 11.25 hr.
+indication: For treatment of Attention Deficit Disorder with Hyperactivity (ADDH),
+  narcolepsy, and exogenous obesity as a short term (a few weeks) adjunct in a regimen
+  of weight reduction based on caloric restriction for patients refractory to alternative
+  therapy.
+logP: 1.76
+metabolism: Amphetamine is reported to be oxidized at the 4 position of the benzene
+  ring to form 4-hydroxyamphetamine, or on the side chain α or β carbons to form alpha-hydroxy-amphetamine
+  or norephedrine, respectively. Norephedrine and 4-hydroxy-amphetamine are both active
+  and each is subsequently oxidized to form 4-hydroxy-norephedrine. Alpha-hydroxy-amphetamine
+  undergoes deamination to form phenylacetone, which ultimately forms benzoic acid
+  and its glucuronide and the glycine conjugate hippuric acid. Although the enzymes
+  involved in amphetamine metabolism have not been clearly defined, CYP2D6 is known
+  to be involved with formation of 4-hydroxy-amphetamine. Since CYP2D6 is genetically
+  polymorphic, population variations in amphetamine metabolism are a possibility.
+molecular_weight: 135.2062
+name: amphetamine
+pKa: 10.1
+protein_binding: 0.4
+protein_binding_raw: 15-40%
+protein_binding_source: drugbank
+Papp_cms: 4.07e-5
+Papp_source: WangCACO2 dataset

@@ -1,4 +1,5 @@
 import sys
+import os
 sys.path.insert(0, '/mnt/c/Users/Nandan\ Thakare/OneDrive/Documents/drugnandan')
 
 import numpy as np
@@ -13,17 +14,17 @@ from core.membrane import Membrane
 from core.simulator import Simulator
 from core.analysis import summarise, print_summary
 
-print("✓ Imports OK\n")
+print("Imports OK\n")
 
 # ── 1. Parameters ─────────────────────────────────────────────────────────────
 
-DRUG_NAME   = "amphetamine"
-TISSUE_NAME = "lung"
-N_PARTICLES = 500
-N_STEPS     = 50000        
-N_ENSEMBLE  = 50
-DT          = 0.000125
-DOSE_uM     = 10.0
+DRUG_NAME   = "glipizide"
+TISSUE_NAME = "liver"
+N_PARTICLES = 1000
+N_STEPS     = 100000     
+N_ENSEMBLE  = 2
+DT          = 1e-4
+DOSE_uM     = 1.0
 
 start_time = time.time()
 
@@ -41,7 +42,8 @@ print(f"pKa:             {drug.pKa}")
 print(f"Protein binding: {drug.protein_binding*100:.0f}%")
 print(f"D_eff:           {D:.3e} m²/s")
 print(f"P-gp expression: {tissue.get_expression_scale('ABCB1'):.4f}")
-
+print(f"Papp_cms:         {drug.Papp_cms} cm/s")
+print(f"Papp_ms:          {drug.Papp_ms} m/s")
 # ── 3. Build simulation objects ───────────────────────────────────────────────
 
 half = tissue.box_size / 2
@@ -60,7 +62,8 @@ box = BoxGeometry(
 
 membrane = Membrane(
     axis=2, position=0.0,
-    Papp_ms=tissue.permeability,
+    Papp_ms=drug.Papp_ms,
+    box_size=tissue.box_size,
     D_eff=D, dt=DT,
 )
 

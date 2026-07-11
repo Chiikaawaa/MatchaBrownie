@@ -1,0 +1,15 @@
+name: skin
+description: Stratum corneum + viable epidermis — primary transdermal barrier
+diffusion_coefficient: 2.6e-13
+viscosity: 0.0018
+permeability: 1.0e-8
+tortuosity: 3.5
+box_size_um: 15.0
+transporter_expression:
+  ABCC2: 0.0141
+  ABCB1: 0.0146
+  ABCG2: 0.006
+  SLCO1B1: 0.0
+  SLC22A1: 0.0007
+transporter_expression_source: Human Protein Atlas — rna_tissue_consensus nTPM, normalised
+  to max expression

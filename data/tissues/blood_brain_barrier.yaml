@@ -1,0 +1,15 @@
+name: blood_brain_barrier
+description: Highly selective barrier — tight junctions between endothelial cells
+diffusion_coefficient: 1.5e-13
+viscosity: 0.0012
+permeability: 1.0e-7
+tortuosity: 2.8
+box_size_um: 20.0
+transporter_expression:
+  ABCC2: 0.0009
+  ABCB1: 0.0905
+  ABCG2: 0.1647
+  SLCO1B1: 0.0
+  SLC22A1: 0.0002
+transporter_expression_source: Human Protein Atlas — rna_tissue_consensus nTPM, normalised
+  to max expression

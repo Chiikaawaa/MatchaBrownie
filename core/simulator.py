@@ -1,6 +1,6 @@
 import numpy as np
 try:
-    from core import sim_core 
+    import sim_core 
     HAS_CPP = True
 except ImportError: 
     HAS_CPP = False
@@ -54,6 +54,11 @@ class Simulator:
         old_positions = self.positions.copy()
     
         sim_core.step_core(self.positions, active_mask, self.D, self.dt)
+        
+        if self.concentration_field is not None:
+            self.concentration_field.update(self.positions, active_mask)
+            if self.step_count % 10 == 0:
+                self.concentration_field.snapshot()
     
         if self.transporters:
             box_size = (
@@ -82,11 +87,6 @@ class Simulator:
             else np.ones(self.n_particles, dtype=bool)
         )
 
-        if self.concentration_field is not None:
-            self.concentration_field.update(self.positions, active_mask)
-            if self.step_count % 10 == 0:
-                self.concentration_field.snapshot()
-
         if self.fpt_tracker is not None:
             self.fpt_tracker.update(self.positions, self.step_count, active_mask)
  
@@ -113,13 +113,6 @@ class Simulator:
             origin = self.positions.copy()
             msd = np.zeros(n_steps + 1)
             msd[0] = 0.0
-    
-            all_noise = np.random.normal(0, sigma, size=(n_steps, self.n_particles, 3))
-            origin = self.positions.copy()
-            msd = np.zeros(n_steps + 1)
-            msd[0] = 0.0
-
-            all_noise = np.random.normal(0, sigma, size=(n_steps, self.n_particles, 3))
 
             for i in range(n_steps):
                 self.step()

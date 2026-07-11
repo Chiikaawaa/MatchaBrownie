@@ -1,0 +1,13 @@
+name: empty
+description: No tissue 
+diffusion_coefficient: 2.7e-9
+viscosity: 1e-3
+permeability: 1
+tortuosity: 1
+box_size_um: 25.0
+transporter_expression:
+  ABCC2: 0.0
+  ABCB1: 0.0
+  ABCG2: 0.0
+  SLCO1B1: 0.0
+  SLC22A1: 0.0

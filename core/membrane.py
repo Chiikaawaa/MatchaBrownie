@@ -10,6 +10,7 @@ class Membrane:
         Papp_ms:  float,
         D_eff:    float,
         dt:       float,
+        box_size: float,
     ):
         self.axis     = axis
         self.position = position
@@ -19,11 +20,11 @@ class Membrane:
 
         
         self.permeability = float(np.clip(
-            Papp_ms * np.sqrt(np.pi * dt / max(D_eff, 1e-30)),
+            Papp_ms * np.sqrt(np.pi * dt / D_eff),
             0.0, 1.0
         ))
         if self.permeability >= 1.0:
-            print(f"⚠ WARNING: Membrane permeability for axis {self.axis} clipped to 1.0. "
+            print(f" WARNING: Membrane permeability for axis {self.axis} clipped to 1.0. "
                 f"Results will be timestep-dependent. Consider reducing dt.")
 
         self.n_attempts  = 0

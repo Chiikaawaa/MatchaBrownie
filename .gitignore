@@ -45,15 +45,20 @@ data/*
 
 # 3. Tell Git to ignore everything inside those subfolders by default
 data/drugs/*
-data/tissues/*
 
-# 4. Explicitly whitelist ONLY your target benchmark samples
-!data/drugs/ibuprofen.yaml
+
 !data/drugs/caffeine.yaml
-!data/tissues/bbb.yaml
-!data/tissues/intestine.yaml
+!data/drugs/amphetamine.yaml
+!data/drugs/betaxolol.yaml
+!data/drugs/glipizide.yaml
+
 
 notebooks/02_analysis.ipynb 
 notebooks/03_full_pipeline_test2.ipynb
 notebooks/03_full_pipeline_test3.ipynb
 notebooks/03_full_pipeline_test.ipynb
+
+new.py
+build/*
+paper.md 
+Runs/*

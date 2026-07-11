@@ -1,0 +1,22 @@
+absorption: Gastrointestinal absorption is uniform, rapid, and essentially complete.
+charge: 0
+description: An oral hypoglycemic agent which is rapidly absorbed and completely metabolized.
+drugbank_id: DB01067
+half_life: 2-5 hours
+indication: For use as an adjunct to diet for the control of hyperglycemia and its
+  associated symptomatology in patients with non-insulin-dependent diabetes mellitus
+  (NIDDM; type II), formerly known as maturity-onset diabetes, after an adequate trial
+  of dietary therapy has proved unsatisfactory.
+logP: 1.91
+metabolism: Hepatic. The major metabolites of glipizide are products of aromatic hydroxylation
+  and have no hypoglycemic activity. A minor metabolite which accounts for less than
+  2% of a dose, an acetylaminoethyl benzine derivatives, is reported to have 1/10
+  to 1/3 as much hypoglycemic activity as the parent compound.
+molecular_weight: 445.535
+name: glipizide
+pKa: 5.9
+protein_binding: 0.99
+protein_binding_raw: 98-99%, primarily to albumin.
+protein_binding_source: drugbank
+Papp_cms: 1.91e-5
+Papp_source: WangCACO2 dataset

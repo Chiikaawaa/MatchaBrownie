@@ -33,7 +33,7 @@ void step_core(
     for (int i = 0; i < n_particles; i++) {
         if (mask[i]) {
             for (int j = 0; j < 3; j++) {
-                pos[i * 3 + j] += dist(g_rn g);
+                pos[i * 3 + j] += dist(g_rng);
             }
         }
     }

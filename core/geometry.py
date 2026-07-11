@@ -23,14 +23,14 @@ class WallConfig:
             )
 
     @staticmethod
-    def from_papp(Papp_ms: float, dt: float, D_eff: float) -> "WallConfig":
+    def from_papp(Papp_ms: float, dt: float, D_eff: float, box_size: float) -> "WallConfig":
         
         p = float(np.clip(
-            Papp_ms * np.sqrt(np.pi * dt / max(D_eff, 1e-30)),
+            Papp_ms * np.sqrt(np.pi * dt / D_eff),
             0.0, 1.0,
         ))
-        return WallConfig(mode="membrane", permeability=p)
 
+        return WallConfig(mode="membrane", permeability=p)
 
 # Six faces in order: x_lo, x_hi, y_lo, y_hi, z_lo, z_hi
 _FACE_LABELS = ("x_lo", "x_hi", "y_lo", "y_hi", "z_lo", "z_hi")

@@ -105,7 +105,7 @@ class ActiveTransporter:
         )
         if C_um_max < Km_app_um * 0.01:
             print(
-                f"  ⚠ C_local ≪ Km: transporter is deep in linear regime. "
+                f"   C_local ≪ Km: transporter is deep in linear regime. "
                 f"Increase particles_per_mole by ~{Km_app_um / max(C_um_max, 1e-30):.0e}× "
                 f"to reach Km."
             )
@@ -113,8 +113,10 @@ class ActiveTransporter:
 
     def _local_concentration(self, positions: np.ndarray, concentration_field=None) -> np.ndarray:
         """Return concentration (particle counts / m³) at each particle's voxel."""
-        if concentration_field is None:
-            return np.ones(len(positions))
+        if concentration_field is None:    
+            raise ValueError(
+                    "concentration field is required for transporter kinetics"
+                    )
         cf      = concentration_field
         half    = cf.box_size / 2
         indices = np.clip(
@@ -161,8 +163,12 @@ class ActiveTransporter:
             * self.params.free_fraction
             * self.params.expression_scale
         )
-
-        sign = -1.0 if self.params.direction == "efflux" else +1.0
+        sign = 0.0
+        if self.params.direction == "efflux":
+            sign = -1.0 if self.membrane_side == "left" else 1.0
+        else:
+            sign = 1.0 if self.membrane_side == "left" else -1.0
+        
         drift[mask, self.params.axis] = sign * v_ms * dt
 
         mag = np.abs(drift[mask, self.params.axis])

@@ -62,11 +62,9 @@ def fit_distribution(times: np.ndarray) -> str:
         "inverse_gaussian": stats.invgauss, #ideal for fpt with v>0 
         "lognormal":        stats.lognorm,  #realistic for high P_app
         "weibull":          stats.weibull_min,  #flexible, seen when P_app is low
-        "gamma":            stats.gamma,   #generalization of exponential, can capture various shapes
-        "exponential":      stats.expon, #not ideal for FPTs but included for completeness
+        "gamma":            stats.gamma,   #general, can capture various shapes
+        "exponential":      stats.expon, #marginally reasonable but added for completeness
         "normal":           stats.norm, #not ideal for FPTs but included for completeness
-        "Levy":             stats.levy, #ideal for fpt with v=0
-        "pareto":           stats.pareto, #general heavy tailed distribution
     }
 
     best_name   = None
