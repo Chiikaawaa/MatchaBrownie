@@ -1,6 +1,4 @@
-# ==============================================================================
-# Cache, Environment, and System Junk (Do NOT track)
-# ==============================================================================
+
 __pycache__/
 *.py[cod]
 *$py.class
@@ -13,9 +11,6 @@ env/
 .DS_Store
 Thumbs.db
 
-# ==============================================================================
-# Simulation Outputs & Local Visualizations
-# ==============================================================================
 outputs/
 viz/
 *.png
@@ -23,9 +18,8 @@ viz/
 *.jpeg
 *.mp4
 
-# ==============================================================================
-# Heavy Raw Datasets & Database Dumps (Bypassed for GitHub 100MB limits)
-# ==============================================================================
+build/*
+
 data/drugbank
 data/drugbank.xml
 data/normal_ihc_data.tsv
@@ -59,6 +53,5 @@ notebooks/03_full_pipeline_test3.ipynb
 notebooks/03_full_pipeline_test.ipynb
 
 new.py
-build/*
 paper.md 
 Runs/*
